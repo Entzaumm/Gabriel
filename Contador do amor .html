@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador do Amor</title>
+    <style>
+        body {
+            font-family: 'Courier New', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #ffcccc, #ffe6e6);
+            color: #d6336c;
+            overflow: hidden;
+        }
+
+        .imagem-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        .imagem-container .heart {
+            width: 75px;
+            height: 75px;
+            background-color: #d6336c;
+            position: relative;
+            transform: rotate(-45deg);
+            animation: pulsar 1s infinite;
+        }
+
+        .imagem-container .heart::before,
+        .imagem-container .heart::after {
+            content: '';
+            width: 75px;
+            height: 75px;
+            background-color: #d6336c;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .imagem-container .heart::before {
+            top: -37.5px;
+            left: 0;
+        }
+
+        .imagem-container .heart::after {
+            left: 37.5px;
+            top: 0;
+        }
+
+        @keyframes pulsar {
+            0%, 100% {
+                transform: scale(1) rotate(-45deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(-45deg);
+            }
+        }
+
+        .imagem-container h1 {
+            margin-top: 40px; /* Ajustado para mais distância do coração */
+            font-size: 1.8rem;
+            text-align: center;
+            color: #a61d46;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .imagem-container .quote {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-style: italic;
+            color: #a61d46;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .contador {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 80%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .retangulo {
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 3px solid #d6336c;
+            border-radius: 10px;
+            background-color: #ffe6e6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .retangulo span {
+            color: #a61d46;
+        }
+
+        .heart-small {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #d6336c;
+            transform: rotate(-45deg);
+            animation: float 4s infinite;
+        }
+
+        .heart-small::before,
+        .heart-small::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background-color: #d6336c;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart-small::before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart-small::after {
+            left: 15px;
+            top: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) rotate(-45deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-40px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Posicionamento nas laterais do contador */
+        .heart-small:nth-child(1) {
+            top: 20px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .heart-small:nth-child(2) {
+            top: 100px;
+            right: -50px;
+            animation-delay: 1s;
+        }
+
+        .heart-small:nth-child(3) {
+            top: 200px;
+            left: -50px;
+            animation-delay: 2s;
+        }
+
+        .heart-small:nth-child(4) {
+            top: 300px;
+            right: -50px;
+            animation-delay: 3s;
+        }
+
+        .bottom-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .bottom-image img {
+            width: 100px;
+            height: auto;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="imagem-container">
+        <div class="heart"></div>
+        <h1>Contador do Amor de Igor e Gabriel</h1>
+        <p class="quote">"O amor verdadeiro é como um tesouro; quanto mais você o protege, mais precioso ele se torna."</p>
+    </div>
+
+    <div class="contador">
+        <div class="heart-small"></div>
+        <div class="heart-small"></div>
+        <div class="heart-small"></div>
+        <div class="heart-small"></div>
+
+        <div class="retangulo"><span id="anos"></span></div>
+        <div class="retangulo"><span id="meses"></span></div>
+        <div class="retangulo"><span id="dias"></span></div>
+        <div class="retangulo"><span id="horas"></span></div>
+        <div class="retangulo"><span id="minutos"></span></div>
+        <div class="retangulo"><span id="segundos"></span></div>
+    </div>
+
+    <script>
+        function calcularDiferenca(dataInicio) {
+            const agora = new Date();
+            const inicio = dataInicio;
+
+            let anos = agora.getFullYear() - inicio.getFullYear();
+            let meses = agora.getMonth() - inicio.getMonth();
+            let dias = agora.getDate() - inicio.getDate();
+            let horas = agora.getHours() - inicio.getHours();
+            let minutos = agora.getMinutes() - inicio.getMinutes();
+            let segundos = agora.getSeconds() - inicio.getSeconds();
+
+            if (segundos < 0) {
+                segundos += 60;
+                minutos--;
+            }
+            if (minutos < 0) {
+                minutos += 60;
+                horas--;
+            }
+            if (horas < 0) {
+                horas += 24;
+                dias--;
+            }
+            if (dias < 0) {
+                const diasNoMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+                dias += diasNoMesAnterior;
+                meses--;
+            }
+            if (meses < 0) {
+                meses += 12;
+                anos--;
+            }
+
+            return { anos, meses, dias, horas, minutos, segundos };
+        }
+
+        function atualizarContador() {
+            const inicio = new Date(2024, 8, 29, 0, 0, 0); 
+            const diferenca = calcularDiferenca(inicio);
+
+            document.getElementById("anos").textContent = diferenca.anos + " anos";
+            document.getElementById("meses").textContent = diferenca.meses + " meses";
+            document.getElementById("dias").textContent = diferenca.dias + " dias";
+            document.getElementById("horas").textContent = diferenca.horas + " horas";
+            document.getElementById("minutos").textContent = diferenca.minutos + " minutos";
+            document.getElementById("segundos").textContent = diferenca.segundos + " segundos";
+        }
+
+        atualizarContador();
+        setInterval(atualizarContador, 1000);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
